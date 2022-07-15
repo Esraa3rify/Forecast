@@ -6,7 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.data.ApixuWeatherApiService
+import com.example.data.ApixuWeatherApiService.Companion.invoke
+import com.example.dataConnectivityInterceptor.ConnectivityInterceptor
 import com.example.ui.R
+import kotlinx.android.synthetic.main.fragment_current_weather.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.Interceptor
 
 class CurrentWeatherFragment : Fragment() {
 
@@ -27,6 +35,9 @@ class CurrentWeatherFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CurrentWeatherViewModel::class.java)
         // TODO: Use the ViewModel
+
+
     }
+
 
 }
