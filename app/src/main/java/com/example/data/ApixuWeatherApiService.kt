@@ -1,7 +1,7 @@
 package com.example.data
 
 import com.example.data.network.response.CurrentWeatherResponce
-import com.example.dataConnectivityInterceptor.ConnectivityInterceptor
+import com.example.data.network.dataConnectivityInterceptor.ConnectivityInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor

@@ -1,4 +1,4 @@
-package com.example.dataConnectivityInterceptor
+package com.example.data.network.dataConnectivityInterceptor
 
 
 import okhttp3.Interceptor
