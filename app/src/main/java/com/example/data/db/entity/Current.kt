@@ -11,7 +11,7 @@ const val CURRENT_WEATHER_ID=0
 @Entity(tableName="current_weather")
 data class Current(
     val cloudcover: Int,
-    val feelslike: Int,
+    //val feelslike: Int,
     val humidity: Int,
     @SerializedName("observation_time")
     val observationTime: String,
@@ -19,9 +19,9 @@ data class Current(
     val pressure: Int,
     val temperature: Int,
     @SerializedName("weather_descriptions")
-    val weatherDescriptions: List<String>,
+    val weatherDescriptions: String,
     @SerializedName("weather_icons")
-    val weatherIcons: List<String>,
+    val weatherIcons: String,
     @SerializedName("wind_degree")
     val windDegree: Int,
     @SerializedName("wind_speed")

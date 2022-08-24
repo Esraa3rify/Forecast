@@ -11,7 +11,9 @@ import com.example.data.network.dataConnectivityInterceptor.ConnectivityIntercep
 import com.example.data.network.dataConnectivityInterceptor.ConnectivityInterceptorImpl
 import com.example.data.repository.ForecastRepository
 import com.example.data.repository.ForecastRepositoryImpl
+import com.example.ui.weather.current.CurrentWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -32,9 +34,17 @@ class ForecastApplication : Application(),KodeinAware {
         bind() from singleton { ApixuWeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
-      //  bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
+     //  bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance()) }
+        bind() from provider { CurrentWeatherViewModelFactory(instance()) }
 
 
     }
+
+    override fun onCreate() {
+        super.onCreate()
+        AndroidThreeTen.init(this)
+    }
+
+
 }

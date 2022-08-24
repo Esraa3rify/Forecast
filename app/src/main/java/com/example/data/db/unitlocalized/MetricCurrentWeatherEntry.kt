@@ -12,8 +12,8 @@ override val windSpeed: Int,
 override val windDegree: Int,
 @ColumnInfo("precip")
 override val precip: Int,
-@ColumnInfo(" feelslike")
-override val feelsLikeTemperature: Int,
+//@ColumnInfo(" feelslike")
+//override val feelsLikeTemperature: Int
 @ColumnInfo("cloudcover")
 override val cloudcover: Int
 

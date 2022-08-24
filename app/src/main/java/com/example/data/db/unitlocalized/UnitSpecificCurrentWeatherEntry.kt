@@ -7,7 +7,7 @@ interface UnitSpecificCurrentWeatherEntry {
     val windSpeed: Int
     val windDegree: Int
     val precip: Int
-    val feelsLikeTemperature: Int
+   // val feelsLikeTemperature: Int
     val cloudcover: Int
 
 }
