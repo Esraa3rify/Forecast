@@ -1,23 +1,25 @@
 package com.example.ui.weather.current
 
-import androidx.lifecycle.ViewModelProvider
+
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import com.example.internal.glide.GlideApp
 import com.example.ui.R
-import com.example.ui.base.ScopedFragment
-import kotlinx.android.synthetic.main.fragment_current_weather.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.example.ui.base.ScopedFragment
+import kotlinx.android.synthetic.main.fragment_current_weather.*
 import org.kodein.di.KodeinAware
-import org.kodein.di.android.closestKodein
 import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
+
 
 class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
 
@@ -36,41 +38,39 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of (this,viewModelFactory).get(CurrentWeatherViewModel::class.java)
+        viewModel = ViewModelProvider(this,viewModelFactory).get(CurrentWeatherViewModel::class.java)
         // TODO: Use the ViewModel
 
  bindUI()
 
     }
 
- private fun bindUI()=launch {
-     val currentWeather=viewModel.weather.await()
+    private fun bindUI() = launch {
+        val currentWeather = viewModel.weather.await()
+      // val liveData = MutableLiveData<String>()
+//        val weatherLocation = viewModel.weatherLocation.await()
+//
+//        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
+//            if (location == null) return@Observer
+//            updateLocation(location.name)
+//        })
 
-     val weatherLocation = viewModel.weather.await()
+        currentWeather.observe(this@CurrentWeatherFragment, Observer {
+            if (it == null) return@Observer
 
-//     weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
-//         if (location == null) return@Observer
-//         updateLocation(location.name)
-//     })
+            group_loading.visibility = View.GONE
+            updateDateToToday()
+            updateTemperatures(it.temperature, it.feelsLikeTemperature)
+            updateCondition(it.conditionText)
+            updatePrecipitation(it.precipitationVolume)
+            updateWind(it.windDirection, it.windSpeed)
+            updateVisibility(it.visibilityDistance)
 
-     currentWeather.observe(this@CurrentWeatherFragment,Observer{
-
-         if (it==null)return@Observer
-         group_loading.visibility=View.GONE
-         updateLocation("Egypt")
-         updateDateToToday()
-         updateTemperatures(it.temperature, it.feelsLikeTemperature)
-         updateCondition(it.conditionText)
-         updatePrecipitation(it.precipitationVolume)
-         updateWind(it.windDirection, it.windSpeed)
-         updateVisibility(it.visibilityDistance)
-
-         GlideApp.with(this@CurrentWeatherFragment)
-             .load("http:${it.conditionIconUrl}")
-             .into(imageView_condition_icon)
-
-     })
- }
+            GlideApp.with(this@CurrentWeatherFragment)
+                .load("http:${it.conditionIconUrl}")
+                .into(imageView_condition_icon)
+        })
+    }
 
     private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String): String {
         return if (viewModel.isMetric) metric else imperial

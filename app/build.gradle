@@ -52,7 +52,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 
 
-   // implementation 'com.android.support:multidex:1.0.3'
+    // implementation 'com.android.support:multidex:1.0.3'
 
 
 
@@ -72,8 +72,8 @@ dependencies {
 //    implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
 //    implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
 
- //   implementation 'androidx.navigation:navigation-fragment:2.5.0'
-  //  implementation 'androidx.navigation:navigation-ui:2.5.0'
+    //   implementation 'androidx.navigation:navigation-fragment:2.5.0'
+    //  implementation 'androidx.navigation:navigation-ui:2.5.0'
 
 
 
