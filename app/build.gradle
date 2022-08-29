@@ -123,6 +123,7 @@ dependencies {
     // Preference
     implementation "androidx.preference:preference-ktx:1.2.0"
 
+
     // WeatherLocation
     implementation "com.google.android.gms:play-services-location:20.0.0"
 

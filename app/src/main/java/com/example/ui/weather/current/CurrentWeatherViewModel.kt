@@ -1,16 +1,20 @@
 package com.example.ui.weather.current
 
 import androidx.lifecycle.ViewModel
+import com.example.data.provider.UnitProvider
 import com.example.data.repository.ForecastRepository
 import com.example.internal.UnitSystem
 import com.example.internal.lazyDeferred
 import kotlinx.coroutines.*
 
-class CurrentWeatherViewModel(  val forecatRepository: ForecastRepository
+class CurrentWeatherViewModel(
+
+    private val forecatRepository: ForecastRepository,
+   unitProvider: UnitProvider
 
 ) : ViewModel() {
 
-    private val unitSystem=UnitSystem.METRIC //get from setting later
+    private val unitSystem=unitProvider.getUnitSystem() //get from setting later
 
     val isMetric:Boolean
     get()= unitSystem==UnitSystem.METRIC

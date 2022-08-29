@@ -3,14 +3,18 @@ package com.example
 import android.app.Application
 import android.content.Context
 import android.location.LocationProvider
+import androidx.preference.PreferenceManager
 import com.example.data.ApixuWeatherApiService
 import com.example.data.db.ForecastDatabase
 import com.example.data.network.WeatherNetworkDataSource
 import com.example.data.network.WeatherNetworkDataSourceImpl
 import com.example.data.network.dataConnectivityInterceptor.ConnectivityInterceptor
 import com.example.data.network.dataConnectivityInterceptor.ConnectivityInterceptorImpl
+import com.example.data.provider.UnitProvider
+import com.example.data.provider.UnitProviderImpl
 import com.example.data.repository.ForecastRepository
 import com.example.data.repository.ForecastRepositoryImpl
+import com.example.ui.R
 import com.example.ui.weather.current.CurrentWeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -36,7 +40,8 @@ class ForecastApplication : Application(),KodeinAware {
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
      //  bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
         bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance()) }
-        bind() from provider { CurrentWeatherViewModelFactory(instance()) }
+        bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }
 
 
     }
@@ -44,6 +49,7 @@ class ForecastApplication : Application(),KodeinAware {
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
     }
 
 
