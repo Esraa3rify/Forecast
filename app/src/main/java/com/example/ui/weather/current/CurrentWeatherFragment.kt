@@ -6,16 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.internal.glide.GlideApp
 import com.example.ui.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import com.example.ui.base.ScopedFragment
 import kotlinx.android.synthetic.main.fragment_current_weather.*
+import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
@@ -46,16 +43,17 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
     }
 
     private fun bindUI() = launch {
-        val currentWeather = viewModel.weather.await()
-      // val liveData = MutableLiveData<String>()
-//        val weatherLocation = viewModel.weatherLocation.await()
-//
-//        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
-//            if (location == null) return@Observer
-//            updateLocation(location.name)
-//        })
 
-        currentWeather.observe(this@CurrentWeatherFragment, Observer {
+        val currentWeather = viewModel.weather.await()
+
+       val weatherLocation = viewModel.weatherLocation.await()
+//
+        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
+            if (location == null) return@Observer
+            updateLocation(location.name)
+        })
+
+        currentWeather.observe(this@CurrentWeatherFragment, Observer{
             if (it == null) return@Observer
 
             group_loading.visibility = View.GONE

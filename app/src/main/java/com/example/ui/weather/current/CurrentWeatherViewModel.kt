@@ -25,6 +25,10 @@ class CurrentWeatherViewModel(
         forecatRepository.getCurrentWeather(isMetric) ?:""
     }
 
+    val weatherLocation by lazyDeferred{
+        forecatRepository.getWeatherLocation() ?:""
+    }
+
 
 }
 

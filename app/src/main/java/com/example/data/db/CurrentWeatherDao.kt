@@ -14,9 +14,7 @@ import retrofit2.http.Query
 @Dao
 interface CurrentWeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(weatherEntry: Current
-
-    )
+    fun upsert(weatherEntry: Current)
 
     @androidx.room.Query("select * from current_weather where id = $CURRENT_WEATHER_ID")
     fun getWeatherMetric(): LiveData<MetricCurrentWeatherEntry>

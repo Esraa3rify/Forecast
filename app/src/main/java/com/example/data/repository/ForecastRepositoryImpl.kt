@@ -3,7 +3,9 @@ package com.example.data.repository
 import android.location.LocationProvider
 import androidx.lifecycle.LiveData
 import com.example.data.db.CurrentWeatherDao
+import com.example.data.db.entity.Location
 import com.example.data.db.unitlocalized.UnitSpecificCurrentWeatherEntry
+import com.example.data.db.unitlocalized.WeatherLocationDao
 import com.example.data.network.WeatherNetworkDataSource
 import com.example.data.network.response.CurrentWeatherResponce
 import kotlinx.coroutines.Dispatchers
@@ -17,9 +19,9 @@ import java.util.*
 class ForecastRepositoryImpl(
     private val currentWeatherDao: CurrentWeatherDao,
     //private val futureWeatherDao: FutureWeatherDao,
-    //private val weatherLocationDao: WeatherLocationDao,
+    private val weatherLocationDao: WeatherLocationDao,
     private val weatherNetworkDataSource: WeatherNetworkDataSource,
-    private val locationProvider: LocationProvider
+    private val locationProvider: com.example.data.provider.LocationProvider
 ) : ForecastRepository {
 
     init {
@@ -63,16 +65,16 @@ class ForecastRepositoryImpl(
 //        }
 //    }
 //
-//    override suspend fun getWeatherLocation(): LiveData<WeatherLocation> {
-//        return withContext(Dispatchers.IO) {
-//            return@withContext weatherLocationDao.getLocation()
-//        }
-//    }
+    override suspend fun getWeatherLocation(): LiveData<Location> {
+        return withContext(Dispatchers.IO) {
+            return@withContext weatherLocationDao.getLocation()
+        }
+    }
 
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponce) {
         GlobalScope.launch(Dispatchers.IO) {
             currentWeatherDao.upsert(fetchedWeather.current)
-          //  weatherLocationDao.upsert(fetchedWeather.location)
+          weatherLocationDao.upsert(fetchedWeather.location)
         }
     }
 
@@ -91,26 +93,21 @@ class ForecastRepositoryImpl(
 //        }
 //    }
 
-//    private suspend fun initWeatherData() {
-//        val lastWeatherLocation = weatherLocationDao.getLocationNonLive()
-//
-//        if (lastWeatherLocation == null
-//            || locationProvider.hasLocationChanged(lastWeatherLocation)) {
-//            fetchCurrentWeather()
-//            fetchFutureWeather()
-//            return
-//        }
-//
-//        if (isFetchCurrentNeeded(lastWeatherLocation.zonedDateTime))
-//            fetchCurrentWeather()
-//
-//        if (isFetchFutureNeeded())
-//            fetchFutureWeather()
-//    }
+    private suspend fun initWeatherData() {
+        val lastWeatherLocation = weatherLocationDao.getLocationNonLive()
+
+        if (lastWeatherLocation == null
+            || locationProvider.hasLocationChanged(lastWeatherLocation)) {
+            fetchCurrentWeather()
+           // fetchFutureWeather()
+            return
+        }
+
+    }
 //
     private suspend fun fetchCurrentWeather() {
         weatherNetworkDataSource.fetchCurrentWeather(
-            "London","en"
+            locationProvider.getPreferredLocationString(), Locale.getDefault().language
         )
     }
 

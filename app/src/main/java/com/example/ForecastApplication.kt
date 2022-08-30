@@ -10,6 +10,7 @@ import com.example.data.network.WeatherNetworkDataSource
 import com.example.data.network.WeatherNetworkDataSourceImpl
 import com.example.data.network.dataConnectivityInterceptor.ConnectivityInterceptor
 import com.example.data.network.dataConnectivityInterceptor.ConnectivityInterceptorImpl
+import com.example.data.provider.LocationProviderImpl
 import com.example.data.provider.UnitProvider
 import com.example.data.provider.UnitProviderImpl
 import com.example.data.repository.ForecastRepository
@@ -33,13 +34,13 @@ class ForecastApplication : Application(),KodeinAware {
         bind() from singleton { ForecastDatabase(instance()) }
         bind() from singleton { instance<ForecastDatabase>().currentWeatherDao() }
         //bind() from singleton { instance<ForecastDatabase>().futureWeatherDao() }
-      //  bind() from singleton { instance<ForecastDatabase>().weatherLocationDao() }
+       bind() from singleton { instance<ForecastDatabase>().weatherLocationDao() }
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
         bind() from singleton { ApixuWeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
-     //  bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
-        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance()) }
+        bind<com.example.data.provider.LocationProvider>() with singleton { LocationProviderImpl() }
+        bind<ForecastRepository>() with singleton { ForecastRepositoryImpl(instance(), instance(), instance(),instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
         bind() from provider { CurrentWeatherViewModelFactory(instance(),instance()) }
 
