@@ -2,6 +2,7 @@ package com.example.ui.weather.current
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import org.kodein.di.generic.instance
 
 class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
 
+
     override val kodein by closestKodein()
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
 
@@ -30,28 +32,36 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_current_weather, container, false)
     }
+
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(CurrentWeatherViewModel::class.java)
         // TODO: Use the ViewModel
 
+        Log.d("ERRORRR","ESRAAAAAAAA")
  bindUI()
+
 
     }
 
     private fun bindUI() = launch {
 
-        val currentWeather = viewModel.weather.await()
+        val currentWeather = viewModel.weather
 
-       val weatherLocation = viewModel.weatherLocation.await()
-//
-        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
-            if (location == null) return@Observer
-            updateLocation(location.name)
-        })
+        val weatherLocation = viewModel.weatherLocation
+
+            Log.d("ERRORRR","ESRAAAAAAAA")
+
+            weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
+                if (location == null) return@Observer
+                updateLocation(location.name)
+            })
+
 
         currentWeather.observe(this@CurrentWeatherFragment, Observer{
             if (it == null) return@Observer
