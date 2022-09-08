@@ -8,6 +8,7 @@ import com.example.data.db.entity.CURRENT_WEATHER_ID
 import com.example.data.db.entity.Current
 import com.example.data.db.unitlocalized.ImpericalCurrentWeatherEntry
 import com.example.data.db.unitlocalized.MetricCurrentWeatherEntry
+import kotlinx.coroutines.Deferred
 import retrofit2.http.Query
 
 

@@ -1,6 +1,7 @@
 package com.example.data.repository
 
 import android.location.LocationProvider
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.data.db.CurrentWeatherDao
 import com.example.data.db.entity.Location
@@ -68,6 +69,7 @@ class ForecastRepositoryImpl(
     override suspend fun getWeatherLocation(): LiveData<Location> {
         return withContext(Dispatchers.IO) {
             return@withContext weatherLocationDao.getLocation()
+
         }
     }
 
@@ -121,6 +123,7 @@ class ForecastRepositoryImpl(
     private fun isFetchCurrentNeeded(lastFetchTime: ZonedDateTime): Boolean {
         val thirtyMinutesAgo = ZonedDateTime.now().minusMinutes(30)
         return lastFetchTime.isBefore(thirtyMinutesAgo)
+        Log.d("ERRORRR","ESRAAAAAAAA")
     }
 
 //    private fun isFetchFutureNeeded(): Boolean {

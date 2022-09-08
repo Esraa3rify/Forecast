@@ -1,7 +1,9 @@
 package com.example.ui.weather.current
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,7 @@ import org.kodein.di.generic.instance
 
 class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
 
+
     override val kodein by closestKodein()
     private val viewModelFactory: CurrentWeatherViewModelFactory by instance()
 
@@ -30,43 +33,52 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_current_weather, container, false)
     }
+
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this,viewModelFactory).get(CurrentWeatherViewModel::class.java)
         // TODO: Use the ViewModel
 
+        Log.d("ERRORRR","ESRAAAAAAAA")
  bindUI()
+
 
     }
 
+    @SuppressLint("FragmentLiveDataObserve")
     private fun bindUI() = launch {
 
         val currentWeather = viewModel.weather.await()
 
-       val weatherLocation = viewModel.weatherLocation.await()
-//
-        weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
-            if (location == null) return@Observer
-            updateLocation(location.name)
-        })
+        val weatherLocation = viewModel.weatherLocation.await()
 
-        currentWeather.observe(this@CurrentWeatherFragment, Observer{
+            Log.d("ERRORRR","ESRAAAAAAAA")
+
+            weatherLocation.observe(this@CurrentWeatherFragment, Observer { location ->
+                if (location == null) return@Observer
+                updateLocation(location.name)
+            })
+
+
+        currentWeather.observe(this@CurrentWeatherFragment, Observer {
             if (it == null) return@Observer
 
             group_loading.visibility = View.GONE
             updateDateToToday()
-            updateTemperatures(it.temperature, it.feelsLikeTemperature)
-            updateCondition(it.conditionText)
-            updatePrecipitation(it.precipitationVolume)
-            updateWind(it.windDirection, it.windSpeed)
-            updateVisibility(it.visibilityDistance)
+          //  updateTemperatures(it.temperature, it.feelsLikeTemperature)
+          //  updateCondition(it.conditionText)
+         //   updatePrecipitation(it.precipitationVolume)
+          //  updateWind(it.windDirection, it.windSpeed)
+           // updateVisibility(it.visibilityDistance)
 
             GlideApp.with(this@CurrentWeatherFragment)
-                .load("http:${it.conditionIconUrl}")
-                .into(imageView_condition_icon)
+               // .load("http:${it.conditionIconUrl}")
+              //  .into(imageView_condition_icon)
         })
     }
 
@@ -82,7 +94,7 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Today"
     }
 
-    private fun updateTemperatures(temperature: Double, feelsLike: Double) {
+    private fun updateTemperatures(temperature: Int, feelsLike: Double) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C" , "°F")
         textView_temperature.text = "$temperature$unitAbbreviation"
         textView_feels_like_temperature.text = "Feels like $feelsLike$unitAbbreviation"
@@ -97,7 +109,7 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
     }
 
 
-    private fun updateWind(windDirection: String, windSpeed: Double) {
+    private fun updateWind(windDirection: String, windSpeed: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("kph", "mph")
         textView_wind.text = "Wind: $windDirection, $windSpeed $unitAbbreviation"
     }
