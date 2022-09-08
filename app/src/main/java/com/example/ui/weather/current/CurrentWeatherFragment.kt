@@ -1,6 +1,7 @@
 package com.example.ui.weather.current
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -49,11 +50,12 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
 
     }
 
+    @SuppressLint("FragmentLiveDataObserve")
     private fun bindUI() = launch {
 
-        val currentWeather = viewModel.weather
+        val currentWeather = viewModel.weather.await()
 
-        val weatherLocation = viewModel.weatherLocation
+        val weatherLocation = viewModel.weatherLocation.await()
 
             Log.d("ERRORRR","ESRAAAAAAAA")
 
@@ -63,20 +65,20 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
             })
 
 
-        currentWeather.observe(this@CurrentWeatherFragment, Observer{
+        currentWeather.observe(this@CurrentWeatherFragment, Observer {
             if (it == null) return@Observer
 
             group_loading.visibility = View.GONE
             updateDateToToday()
-            updateTemperatures(it.temperature, it.feelsLikeTemperature)
-            updateCondition(it.conditionText)
-            updatePrecipitation(it.precipitationVolume)
-            updateWind(it.windDirection, it.windSpeed)
-            updateVisibility(it.visibilityDistance)
+          //  updateTemperatures(it.temperature, it.feelsLikeTemperature)
+          //  updateCondition(it.conditionText)
+         //   updatePrecipitation(it.precipitationVolume)
+          //  updateWind(it.windDirection, it.windSpeed)
+           // updateVisibility(it.visibilityDistance)
 
             GlideApp.with(this@CurrentWeatherFragment)
-                .load("http:${it.conditionIconUrl}")
-                .into(imageView_condition_icon)
+               // .load("http:${it.conditionIconUrl}")
+              //  .into(imageView_condition_icon)
         })
     }
 
@@ -92,7 +94,7 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
         (activity as? AppCompatActivity)?.supportActionBar?.subtitle = "Today"
     }
 
-    private fun updateTemperatures(temperature: Double, feelsLike: Double) {
+    private fun updateTemperatures(temperature: Int, feelsLike: Double) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C" , "°F")
         textView_temperature.text = "$temperature$unitAbbreviation"
         textView_feels_like_temperature.text = "Feels like $feelsLike$unitAbbreviation"
@@ -107,7 +109,7 @@ class CurrentWeatherFragment : ScopedFragment(),KodeinAware {
     }
 
 
-    private fun updateWind(windDirection: String, windSpeed: Double) {
+    private fun updateWind(windDirection: String, windSpeed: Int) {
         val unitAbbreviation = chooseLocalizedUnitAbbreviation("kph", "mph")
         textView_wind.text = "Wind: $windDirection, $windSpeed $unitAbbreviation"
     }

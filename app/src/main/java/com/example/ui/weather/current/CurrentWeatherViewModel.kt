@@ -1,6 +1,7 @@
 package com.example.ui.weather.current
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.data.db.unitlocalized.UnitSpecificCurrentWeatherEntry
@@ -22,15 +23,18 @@ class CurrentWeatherViewModel(
     val isMetric:Boolean
     get()= unitSystem==UnitSystem.METRIC
 
-
-
-    val weather by lazyDeferred{
-        forecatRepository.getCurrentWeather(isMetric) ?: ""
-    }
+        // val liveData: MutableLiveData<Any>()
+        val weather by lazyDeferred{
+            forecatRepository.getCurrentWeather(isMetric)
+        }
+    //val weather= MutableLiveData<String>()
+  //  val weatherLocation = MutableLiveData<String>()
 
     val weatherLocation by lazyDeferred{
-        forecatRepository.getWeatherLocation() ?:""
+        forecatRepository.getWeatherLocation()
     }
+
+
 
 
 }

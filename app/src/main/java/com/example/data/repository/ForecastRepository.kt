@@ -8,7 +8,7 @@ import com.example.data.db.unitlocalized.WeatherLocationDao
 
 interface ForecastRepository {
 
-    suspend fun getCurrentWeather(metric: Boolean): LiveData<out UnitSpecificCurrentWeatherEntry>
+    suspend fun getCurrentWeather(metric: Boolean): LiveData<out  UnitSpecificCurrentWeatherEntry>
     suspend fun getWeatherLocation(): LiveData<Location>
 
 

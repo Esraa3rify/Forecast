@@ -12,6 +12,8 @@ data class ImpericalCurrentWeatherEntry(
     override val windDegree: Int,
     @ColumnInfo("precip")
     override val precip: Int,
+ //   @ColumnInfo(name = "condition_icon")
+   // override val conditionIconUrl: String,
 //    @ColumnInfo(" feelslike")
 //    override val feelsLikeTemperature: Int,
     @ColumnInfo("cloudcover")
