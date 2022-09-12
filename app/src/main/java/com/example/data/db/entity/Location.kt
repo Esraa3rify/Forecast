@@ -14,10 +14,10 @@ const val WEATHER_LOCATION_ID=0
 
 data class Location(
     val country: String,
-    val lat: String,
+    val lat: Double,
     @SerializedName("localtime_epoch")
     val localtimeEpoch: Long,
-    val lon: String,
+    val lon: Double,
     val name: String,
     val region: String,
     @SerializedName("timezone_id")
