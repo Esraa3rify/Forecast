@@ -8,12 +8,16 @@ import com.example.data.db.entity.Location
 import com.example.internal.LocationPermissionNotGrantedException
 import kotlinx.coroutines.Deferred
 import android.Manifest
+//import android.location.Location
 import com.example.internal.asDeferred
 import com.google.android.gms.location.FusedLocationProviderClient
 
 
 const val USE_DEVICE_LOCATION = "USE_DEVICE_LOCATION"
 const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
+//val comparisonThreshold = 0.03
+//val lastWeatherLocation =true;
+
 
 class LocationProviderImpl(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
@@ -21,6 +25,7 @@ class LocationProviderImpl(
 ) : PreferenceProvider(context), LocationProvider {
 
     private val appContext = context.applicationContext
+
 
     override suspend fun hasLocationChanged(lastWeatherLocation: Location): Boolean {
         val deviceLocationChanged = try {
@@ -46,6 +51,7 @@ class LocationProviderImpl(
             return "${getCustomLocationName()}"
     }
 
+
     private suspend fun hasDeviceLocationChanged(lastWeatherLocation: Location): Boolean {
         if (!isUsingDeviceLocation())
             return false
@@ -53,15 +59,13 @@ class LocationProviderImpl(
         val deviceLocation = getLastDeviceLocation().await()
             ?: return false
 
-//
         // Comparing doubles cannot be done with "=="
         val comparisonThreshold = 0.03
-        return Math.abs(deviceLocation.latitude - lastWeatherLocation.lat) == comparisonThreshold &&
-                Math.abs(deviceLocation.longitude - lastWeatherLocation.lon)== comparisonThreshold
-//
+        return Math.abs(deviceLocation.latitude - lastWeatherLocation.lat) > comparisonThreshold &&
+                Math.abs(deviceLocation.longitude - lastWeatherLocation.lon) > comparisonThreshold
     }
 
-    private fun hasCustomLocationChanged(lastWeatherLocation: Location): Boolean {
+    private fun hasCustomLocationChanged(lastWeatherLocation:Location): Boolean {
         if (!isUsingDeviceLocation()) {
             val customLocationName = getCustomLocationName()
             return customLocationName != lastWeatherLocation.name
@@ -90,3 +94,5 @@ class LocationProviderImpl(
             Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 }
+
+

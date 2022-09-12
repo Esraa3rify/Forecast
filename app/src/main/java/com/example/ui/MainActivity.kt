@@ -17,7 +17,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.internal.Internal.instance
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
@@ -31,11 +30,17 @@ class MainActivity : AppCompatActivity(),KodeinAware {
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(p0: LocationResult) {
-            if (p0 != null) {
-                super.onLocationResult(p0)
-            }
+            super.onLocationResult(p0)
         }
     }
+
+//    private val locationCallback = object : LocationCallback() {
+//        override fun onLocationResult(p0: LocationResult) {
+//            if (p0 != null) {
+//                super.onLocationResult(p0)
+//            }
+//        }
+//    }
 
     private lateinit var navController: NavController
 
