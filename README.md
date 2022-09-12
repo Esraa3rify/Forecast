@@ -9,7 +9,7 @@ Table of content:
 
 5-Tools used.
 
-6-Libraries used.
+6-The coming updates
 
 7-Screenshots.
 
@@ -25,8 +25,8 @@ This is a native Android Foorecast app helps the user to know more about the wea
 
 4-Technologies used:
 ---------------------
-Kotlin - MVVM - ROOM - Retrofit - Coroutines - Android Jetpack Compose - Injection Dependency(Dagger2) -
-Third party Library
+Kotlin - MVVM - ROOM - Retrofit - Coroutines - Injection Dependency(Dagger2) -
+Third party Library-Glide - Android Jetpack Compose -Android Jetpack(Architecture components)-LiveData - ViewModel
 
 -------------------------------------------------------------------------------------------------
 
@@ -34,14 +34,12 @@ Third party Library
 ---------------------
 1-Android studio
 
---------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
-6-Libraries used:
---------------------
+5-The upcoming updates:
+---------------------
 
-
-
-
+I am working on Future section to show the user the predicted weather for the future 7 days.
 ----------------------------------------------------------------------------------------------------
 
 
