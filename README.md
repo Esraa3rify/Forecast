@@ -46,7 +46,8 @@ I am working on Future section to show the user the predicted weather for the fu
 7-Some screenshots from the app:
 -----------------------------------
 
-![mockup (2) 2(2)](https://user-images.githubusercontent.com/59229510/189696282-9cc583be-d4db-4d30-aaa6-ec9afa23efdb.jpg)
+![Screenshot 2022-09-12 163010](https://user-images.githubusercontent.com/59229510/189696566-9fee9b60-b290-4c2f-9eb7-6104be1f4361.jpg)
+
 
 
 ---------------------------------------------------------------------------------------------------------
